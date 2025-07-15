@@ -10,9 +10,9 @@ export default function Sidebar() {
   return (
     <div className="flex flex-col justify-between h-full bg-background1 px-4 pb-4 gap-4">
       {/* Part 1: Logo */}
-      <div className="relative w-full h-[56px] sm:flex hidden">
+      <div className="relative w-full h-14 sm:flex hidden">
         <div className="w-14 h-14 bg-accent1a" />
-        <div className="absolute left-14 top-0 w-[112px] h-[56px] bg-accent2a" />
+        <div className="absolute left-14 top-0 w-40 h-14 bg-accent2a" />
       </div>
 
       {/* Part 2: Menu */}
@@ -29,20 +29,26 @@ export default function Sidebar() {
     flex items-center justify-start
     ${
       isActive
-        ? "bg-accent1b text-background1"
-        : "text-text1 hover:bg-background2"
+        ? "bg-accent1b shadow-sm"
+        : "hover:bg-background2 hover:shadow-sm"
     }
     sm:flex-row sm:justify-start sm:gap-0
     flex-col items-center justify-center gap-1
   `}
             >
               {/* Icon */}
-              <Icon className="w-6 h-6" />
+              <Icon
+                className={`w-6 h-6 ${
+                  isActive ? "text-background1" : "text-accent1b"
+                }`}
+              />
 
               {/* Label (desktop only) */}
               <div
-                className="sm:absolute sm:left-12 sm:top-1/2 sm:-translate-y-1/2 sm:ml-0 sm:opacity-100
-               text-sm font-semibold hidden sm:block"
+                className={`sm:absolute sm:left-12 sm:top-1/2 sm:-translate-y-1/2 sm:ml-0 sm:opacity-100
+               text-sm font-semibold hidden sm:block ${
+                 isActive ? "text-background1" : "text-text1"
+               }`}
               >
                 {label}
               </div>
@@ -54,7 +60,7 @@ export default function Sidebar() {
       {/* Part 3: Copyright */}
       <div className="relative w-full sm:flex hidden items-center">
         <div className="w-6 h-6 bg-text2" />
-        <div className="absolute left-8 w-34 text-xs text-text3">
+        <div className="absolute left-8 w-46 text-xs text-text3">
           © 2025 Robith Enha
         </div>
       </div>

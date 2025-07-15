@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${ubuntuSans.variable} ${ubuntuMono.variable} antialiased font-sans transition`}
+        className={`${ubuntuSans.variable} ${ubuntuMono.variable} antialiased font-sans`}
       >
         <ThemeProvider attribute="data-theme" defaultTheme="system">
           {/* Header */}
@@ -49,7 +49,7 @@ export default function RootLayout({
       sm:top-16
       sm:left-0
       sm:h-[calc(100vh-64px)]
-      sm:w-[200px]
+      sm:w-62
       sm:bottom-auto
     "
             >
@@ -60,7 +60,7 @@ export default function RootLayout({
             <main
               className="
       pb-16
-      sm:ml-[200px]
+      sm:ml-62
       sm:pb-0
     "
             >
