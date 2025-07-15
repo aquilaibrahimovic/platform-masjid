@@ -1,9 +1,21 @@
 import type { Metadata } from "next";
-import { Ubuntu_Sans, Ubuntu_Sans_Mono } from "next/font/google";
+import {
+  Ubuntu_Sans,
+  Ubuntu_Sans_Mono,
+  Yanone_Kaffeesatz,
+} from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import { ThemeProvider } from "next-themes";
+
+// Fonts
+const yanone = Yanone_Kaffeesatz({
+  subsets: ["latin"],
+  variable: "--font-yanone",
+  weight: ["200", "300", "400", "500", "600", "700"],
+  display: "swap",
+});
 
 const ubuntuSans = Ubuntu_Sans({
   variable: "--font-ubuntu-sans",
@@ -28,7 +40,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${ubuntuSans.variable} ${ubuntuMono.variable} antialiased font-sans`}
+        className={`${ubuntuSans.variable} ${ubuntuMono.variable} ${yanone.variable} antialiased font-sans`}
       >
         <ThemeProvider attribute="data-theme" defaultTheme="system">
           {/* Header */}
@@ -59,6 +71,7 @@ export default function RootLayout({
             {/* Page content */}
             <main
               className="
+              px-4 sm:px-0 sm:pr-4
       pb-16
       sm:ml-62
       sm:pb-0

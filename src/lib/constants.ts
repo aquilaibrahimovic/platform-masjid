@@ -8,6 +8,11 @@ import {
   UsersRound,
 } from "lucide-react";
 
+export const logoText = {
+  line1: "PORTAL ONLINE MASJID",
+  line2: "RAUDLATUSSHOLIHIN",
+};
+
 export const MENU_ITEMS = [
   {
     icon: LayoutDashboard,

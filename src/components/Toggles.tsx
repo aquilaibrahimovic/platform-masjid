@@ -7,21 +7,21 @@ import clsx from "clsx";
 import { ChevronRight, SunMedium } from "lucide-react";
 
 export function SidebarToggleButton() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isCompact, setIsCompact] = useState(true);
 
   return (
     <button
-      onClick={() => setIsOpen((prev) => !prev)}
+      onClick={() => setIsCompact((prev) => !prev)}
       className={clsx(
-        "relative w-8 h-8 rounded-lg cursor-pointer border-2 overflow-hidden bg-background3 shadow-sm",
-        isOpen ? "border-yes" : "border-no"
+        "hidden sm:block relative w-8 h-8 rounded-lg cursor-pointer border-2 overflow-hidden bg-background3 shadow-sm",
+        isCompact ? "border-yes" : "border-no"
       )}
       aria-label="Toggle Sidebar"
     >
       {/* Animated Rectangle (background strip on left) */}
       <motion.div
         animate={{
-          width: isOpen ? "12px" : "24px",
+          width: isCompact ? "12px" : "24px",
         }}
         transition={{
           type: "spring",
@@ -29,7 +29,7 @@ export function SidebarToggleButton() {
           damping: 18,
         }}
         style={{
-          backgroundColor: isOpen ? "var(--Yes)" : "var(--No)",
+          backgroundColor: isCompact ? "var(--Yes)" : "var(--No)",
         }}
         className="absolute top-0 left-0 h-8"
       ></motion.div>
@@ -38,9 +38,9 @@ export function SidebarToggleButton() {
       <motion.div
         className="absolute"
         animate={{
-          x: isOpen ? -5 : 1,
+          x: isCompact ? -5 : 1,
           y: -10,
-          rotate: isOpen ? 0 : 180,
+          rotate: isCompact ? 0 : 180,
         }}
         transition={{
           type: "spring",

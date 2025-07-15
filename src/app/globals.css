@@ -32,6 +32,8 @@
   --color-alwaysBlack: #09090b;
   --font-sans: var(--font-ubuntu-sans);
   --font-mono: var(--font-ubuntu-mono);
+  --font-display: "Ubuntu Sans", "sans-serif";
+  --font-special: "Yanone Kaffeesatz", sans-serif;
 }
 
 [data-theme="dark"] {
@@ -57,4 +59,19 @@ body {
 [data-theme] * {
   transition: background-color 0.3s ease, color 0.3s ease,
     border-color 0.3s ease, fill 0.3s ease, stroke 0.3s ease;
+}
+
+body::-webkit-scrollbar {
+  width: 0;
+}
+
+body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: rgba(120, 120, 120, 0.3);
+  border-radius: 6px;
+  border: 3px solid transparent;
+  background-clip: content-box;
 }

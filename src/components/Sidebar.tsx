@@ -1,18 +1,50 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { MENU_ITEMS } from "@/lib/constants";
+import { MENU_ITEMS, logoText } from "@/lib/constants";
+import { useTheme } from "next-themes";
+import { motion } from "motion/react";
 import Link from "next/link";
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { resolvedTheme } = useTheme();
 
   return (
     <div className="flex flex-col justify-between h-full bg-background1 px-4 pb-4 gap-4">
       {/* Part 1: Logo */}
-      <div className="relative w-full h-14 sm:flex hidden">
-        <div className="w-14 h-14 bg-accent1a" />
-        <div className="absolute left-14 top-0 w-40 h-14 bg-accent2a" />
+      <div className="relative w-full h-14 sm:flex hidden select-none">
+        <div className="w-14 h-14">
+          <motion.svg
+            key={resolvedTheme}
+            width="56"
+            height="56"
+            viewBox="0 0 56 56"
+            animate={{
+              fill: [
+                "var(--color-accent1a)",
+                "var(--color-accent2b)",
+                "var(--color-text1)",
+                "var(--color-accent1b)",
+                "var(--color-accent2a)",
+              ],
+            }}
+            transition={{ duration: 4, repeat: Infinity }}
+          >
+            <use href="/images/sprites.svg#logo-masjid" />
+          </motion.svg>
+        </div>
+        <div
+          className="absolute left-15 top-[6px] w-39 h-14 flex flex-col justify-center"
+          style={{ lineHeight: 1 }}
+        >
+          <div className="font-special text-md font-bold text-text3">
+            {logoText.line1}
+          </div>
+          <div className="font-special text-2xl font-medium text-accent1b">
+            {logoText.line2}
+          </div>
+        </div>
       </div>
 
       {/* Part 2: Menu */}
@@ -58,9 +90,19 @@ export default function Sidebar() {
       </div>
 
       {/* Part 3: Copyright */}
-      <div className="relative w-full sm:flex hidden items-center">
-        <div className="w-6 h-6 bg-text2" />
-        <div className="absolute left-8 w-46 text-xs text-text3">
+      <div className="relative w-full sm:flex hidden items-center h-6 px-4">
+        <div className="w-6 h-6">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            className="text-text2 fill-current"
+            aria-hidden="true"
+          >
+            <use href="/images/sprites.svg#logo-robith" />
+          </svg>
+        </div>
+        <div className="absolute left-8 text-xs text-text3 w-46">
           © 2025 Robith Enha
         </div>
       </div>
