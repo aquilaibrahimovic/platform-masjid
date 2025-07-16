@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import { ThemeProvider } from "next-themes";
 import { motion } from "motion/react";
+import { useHasMounted } from "@/lib/hooks/useHasMounted";
 
 // Provide this context to children
 const SidebarContext = createContext<{
@@ -19,7 +20,7 @@ export const useSidebar = () => useContext(SidebarContext);
 
 export default function LayoutWrapper({ children }: { children: ReactNode }) {
   const [isCompact, setIsCompact] = useState(true);
-
+  const hasMounted = useHasMounted();
   const toggleCompact = () => setIsCompact((prev) => !prev);
 
   return (
@@ -35,7 +36,7 @@ export default function LayoutWrapper({ children }: { children: ReactNode }) {
           {/* Sidebar */}
           <motion.aside
             animate={{
-              width: isCompact ? 88 : 248, // in pixels
+              width: hasMounted ? (isCompact ? 88 : 248) : 88,
             }}
             transition={{
               type: "spring",
@@ -49,7 +50,7 @@ export default function LayoutWrapper({ children }: { children: ReactNode }) {
           hidden sm:block
         `}
             style={{
-              width: isCompact ? 88 : 248, // fallback for SSR
+              width: hasMounted ? (isCompact ? 88 : 248) : 88,
             }}
           >
             <Sidebar />
@@ -58,7 +59,7 @@ export default function LayoutWrapper({ children }: { children: ReactNode }) {
           {/* Page content */}
           <motion.main
             animate={{
-              marginLeft: isCompact ? 88 : 248, // sync with sidebar
+              marginLeft: hasMounted ? (isCompact ? 88 : 248) : 88,
             }}
             transition={{
               type: "spring",
@@ -69,7 +70,7 @@ export default function LayoutWrapper({ children }: { children: ReactNode }) {
           px-4 sm:px-0 sm:pr-4 pb-16 sm:pb-0
         `}
             style={{
-              marginLeft: isCompact ? 88 : 248,
+              marginLeft: hasMounted ? (isCompact ? 88 : 248) : 88,
             }}
           >
             {children}
