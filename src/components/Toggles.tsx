@@ -1,5 +1,6 @@
 "use client";
 
+import { useSidebar } from "@/components/LayoutWrapper";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
@@ -7,11 +8,11 @@ import clsx from "clsx";
 import { ChevronRight, SunMedium } from "lucide-react";
 
 export function SidebarToggleButton() {
-  const [isCompact, setIsCompact] = useState(true);
+  const { isCompact, toggleCompact } = useSidebar();
 
   return (
     <button
-      onClick={() => setIsCompact((prev) => !prev)}
+      onClick={toggleCompact}
       className={clsx(
         "hidden sm:block relative w-8 h-8 rounded-lg cursor-pointer border-2 overflow-hidden bg-background3 shadow-sm",
         isCompact ? "border-yes" : "border-no"

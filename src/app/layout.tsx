@@ -5,11 +5,8 @@ import {
   Yanone_Kaffeesatz,
 } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Sidebar from "@/components/Sidebar";
-import { ThemeProvider } from "next-themes";
+import LayoutWrapper from "@/components/LayoutWrapper";
 
-// Fonts
 const yanone = Yanone_Kaffeesatz({
   subsets: ["latin"],
   variable: "--font-yanone",
@@ -34,53 +31,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${ubuntuSans.variable} ${ubuntuMono.variable} ${yanone.variable} antialiased font-sans`}
       >
-        <ThemeProvider attribute="data-theme" defaultTheme="system">
-          {/* Header */}
-          <header className="h-16 w-full sticky top-0 z-50">
-            <Header />
-          </header>
-
-          {/* Main layout container */}
-          <div className="min-h-[calc(100vh-64px)]">
-            {/* Sidebar */}
-            <aside
-              className="
-      fixed
-      bottom-0
-      h-16
-      w-full
-
-      sm:top-16
-      sm:left-0
-      sm:h-[calc(100vh-64px)]
-      sm:w-62
-      sm:bottom-auto
-    "
-            >
-              <Sidebar />
-            </aside>
-
-            {/* Page content */}
-            <main
-              className="
-              px-4 sm:px-0 sm:pr-4
-      pb-16
-      sm:ml-62
-      sm:pb-0
-    "
-            >
-              {children}
-            </main>
-          </div>
-        </ThemeProvider>
+        <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>
   );
