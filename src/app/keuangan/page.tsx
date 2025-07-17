@@ -5,7 +5,16 @@ import { createClient } from "@supabase/supabase-js";
 import { format, parseISO } from "date-fns";
 import { id } from "date-fns/locale";
 import { MENU_ITEMS } from "@/lib/constants";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  LayoutGrid,
+  Rows3,
+  FilePlus2,
+  FileMinus2,
+  WalletMinimal,
+  Info,
+} from "lucide-react";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -27,6 +36,8 @@ export default function KeuanganPage() {
 
   const [date, setDate] = useState(new Date());
   const [data, setData] = useState<Transaksi[]>([]);
+
+  const [viewMode, setViewMode] = useState<"table" | "grid">("table");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,6 +80,16 @@ export default function KeuanganPage() {
     setDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
   };
 
+  const totalPemasukan = data.reduce(
+    (sum, trx) => sum + (trx.pemasukan || 0),
+    0
+  );
+  const totalPengeluaran = data.reduce(
+    (sum, trx) => sum + (trx.pengeluaran || 0),
+    0
+  );
+  const namaBulan = format(date, "LLLL", { locale: id });
+
   return (
     <div className="flex flex-col gap-4">
       <div className="bg-background1 rounded-bl-2xl sticky top-16 z-30">
@@ -77,7 +98,7 @@ export default function KeuanganPage() {
             <div className="h-14 w-14 bg-accent2b rounded-2xl flex items-center justify-center">
               {KeuanganIcon && <KeuanganIcon className="w-6 h-6 text-white" />}
             </div>
-            <h1 className="text-xl sm:text-2xl font-semibold text-accent1a">
+            <h1 className="text-xl sm:text-2xl font-semibold text-accent2b">
               Keuangan
             </h1>
           </div>
@@ -116,63 +137,178 @@ export default function KeuanganPage() {
         <div className="flex w-full justify-between items-center mb-4">
           <h2 className="text-accent1a font-semibold">Transaksi Harian</h2>
           <div className="flex gap-2">
-            <button>grid</button>
-            <button>table</button>
+            <button
+              onClick={() => setViewMode("grid")}
+              className={`h-8 w-8 flex justify-center items-center rounded-full text-sm ${
+                viewMode === "grid"
+                  ? "bg-accent1b text-background1"
+                  : "bg-background1 hover:bg-accent1a/20"
+              }`}
+            >
+              <LayoutGrid size={16} />
+            </button>
+            <button
+              onClick={() => setViewMode("table")}
+              className={`h-8 w-8 flex justify-center items-center rounded-full text-sm ${
+                viewMode === "table"
+                  ? "bg-accent1b text-background1"
+                  : "bg-background1 hover:bg-accent1a/20"
+              }`}
+            >
+              <Rows3 size={16} />
+            </button>
           </div>
         </div>
         <div>
-          <div className="rounded-2xl overflow-x-auto">
-            <div className="flex flex-col gap-0.5 min-w-[640px]">
-              {/* Header */}
-              <div className="grid grid-cols-[minmax(150px,auto)_72px_88px_88px_88px_72px] text-sm font-semibold text-text1 bg-background1 px-4 py-2">
-                <div>Keterangan</div>
-                <div>Tanggal</div>
-                <div className="text-right">Masuk</div>
-                <div className="text-right">Keluar</div>
-                <div className="text-right">Saldo</div>
-                <div className="text-center">Nota</div>
-              </div>
+          {viewMode === "table" ? (
+            <div className="rounded-2xl overflow-x-auto">
+              <div className="flex flex-col gap-0.5 min-w-[640px]">
+                {/* Header */}
+                <div className="grid grid-cols-[minmax(150px,auto)_96px_88px_88px_88px_72px] text-sm font-semibold text-text1 bg-background1 px-4 py-2">
+                  <div>Keterangan</div>
+                  <div>Tanggal</div>
+                  <div className="text-right">Masuk</div>
+                  <div className="text-right">Keluar</div>
+                  <div className="text-right">Saldo</div>
+                  <div className="text-center">Nota</div>
+                </div>
 
-              {/* Body */}
-              {data.map((trx) => (
-                <div
-                  key={trx.id}
-                  className="grid grid-cols-[minmax(150px,auto)_72px_88px_88px_88px_72px] text-sm text-text1 bg-background3 hover:bg-background1/25 px-4 py-2 font-normal items-center"
-                >
-                  <div>{trx.keterangan}</div>
-                  <div className="text-right">
-                    {format(parseISO(trx.tanggal), "dd LLL yy", { locale: id })}
-                  </div>
+                {/* Body */}
+                {data.map((trx) => (
                   <div
-                    className={`text-right font-mono ${
-                      trx.pemasukan ? "text-yes" : "text-text1"
-                    }`}
+                    key={trx.id}
+                    className="grid grid-cols-[minmax(150px,auto)_96px_88px_88px_88px_72px] text-sm text-text1 bg-background3 hover:bg-background1/25 px-4 py-2 font-normal items-center"
                   >
-                    {trx.pemasukan ? trx.pemasukan.toLocaleString() : "-"}
+                    <div>{trx.keterangan}</div>
+                    <div className="text-right">
+                      {format(parseISO(trx.tanggal), "EEE, dd LLL yy", {
+                        locale: id,
+                      })}
+                    </div>
+                    <div
+                      className={`text-right font-mono ${
+                        trx.pemasukan ? "text-yes" : "text-text1"
+                      }`}
+                    >
+                      {trx.pemasukan ? trx.pemasukan.toLocaleString() : "-"}
+                    </div>
+                    <div
+                      className={`text-right font-mono ${
+                        trx.pengeluaran ? "text-no" : "text-text1"
+                      }`}
+                    >
+                      {trx.pengeluaran ? trx.pengeluaran.toLocaleString() : "-"}
+                    </div>
+                    <div
+                      className={`text-right font-mono ${
+                        trx.saldo >= 0 ? "text-text1" : "text-no"
+                      }`}
+                    >
+                      {trx.saldo.toLocaleString()}
+                    </div>
+                    <div className="text-center">
+                      <button className="bg-background1 hover:bg-accent1a hover:text-background1 rounded-full py-1 px-4">
+                        Nota
+                      </button>
+                    </div>
                   </div>
+                ))}
+                <div className="grid grid-cols-[minmax(150px,auto)_96px_88px_88px_88px_72px] text-sm text-background1 font-semibold bg-accent2b px-4 py-2">
+                  <div className="col-span-2">
+                    Total Mutasi Bulan {namaBulan}
+                  </div>
+                  <div className="text-right font-mono text-background1">
+                    {totalPemasukan.toLocaleString()}
+                  </div>
+                  <div className="text-right font-mono text-background1">
+                    {totalPengeluaran.toLocaleString()}
+                  </div>
+                  <div /> {/* Empty saldo column */}
+                  <div /> {/* Empty nota column */}
+                </div>
+              </div>
+            </div>
+          ) : (
+            // ✅ Grid View
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+              <>
+                {data.map((trx) => (
                   <div
-                    className={`text-right font-mono ${
-                      trx.pengeluaran ? "text-no" : "text-text1"
-                    }`}
+                    key={trx.id}
+                    className="grid grid-cols-2 bg-background3 p-4 rounded-xl text-sm gap-y-0.5 shadow-md"
                   >
-                    {trx.pengeluaran ? trx.pengeluaran.toLocaleString() : "-"}
+                    {/* Row 1: Keterangan full width */}
+                    <div className="flex justify-start items-center col-span-2 font-semibold text-lg text-text1 h-10">
+                      {trx.keterangan}
+                    </div>
+
+                    {/* Row 2: Tanggal and Masuk/Keluar */}
+                    <div className="flex justify-start items-center text-text1 h-8">
+                      {format(parseISO(trx.tanggal), "EEEE, dd LLL yyyy", {
+                        locale: id,
+                      })}
+                    </div>
+                    <div className="flex justify-end items-center gap-2">
+                      {trx.pemasukan ? (
+                        <FilePlus2 size={20} className="text-yes" />
+                      ) : trx.pengeluaran ? (
+                        <FileMinus2 size={20} className="text-no" />
+                      ) : null}
+
+                      <div
+                        className={`flex justify-end items-center text-right font-mono h-8 w-20 ${
+                          trx.pemasukan
+                            ? "text-yes"
+                            : trx.pengeluaran
+                            ? "text-no"
+                            : "text-text1"
+                        }`}
+                      >
+                        {trx.pemasukan || trx.pengeluaran
+                          ? (trx.pemasukan || trx.pengeluaran).toLocaleString()
+                          : "-"}
+                      </div>
+                    </div>
+
+                    {/* Row 3: Nota and Saldo */}
+                    <div className="pt-1">
+                      <button className="bg-background1 hover:bg-accent1a hover:text-background1 rounded-full py-1 px-4">
+                        Nota
+                      </button>
+                    </div>
+                    <div className="flex justify-end items-center gap-2">
+                      <WalletMinimal size={20} className="text-accent2b" />
+                      <div
+                        className={`flex justify-end items-center text-right font-mono pt-1 w-20 ${
+                          trx.saldo >= 0 ? "text-text1" : "text-no"
+                        }`}
+                      >
+                        {trx.saldo.toLocaleString()}
+                      </div>
+                    </div>
                   </div>
-                  <div
-                    className={`text-right font-mono ${
-                      trx.saldo >= 0 ? "text-text1" : "text-no"
-                    }`}
-                  >
-                    {trx.saldo.toLocaleString()}
-                  </div>
-                  <div className="text-center">
-                    <button className="bg-background1 hover:bg-accent1a hover:text-background1 rounded-full py-1 px-4">
-                      Nota
-                    </button>
+                ))}
+
+                {/* Grid summary row */}
+                <div className="md:col-span-2 lg:col-span-3 xl:col-span-4">
+                  <div className="flex flex-col md:flex-row gap-2 mt-4 text-sm text-text1 font-semibold">
+                    <div className="flex justify-between bg-background3 p-3 rounded-xl w-full md:w-1/2">
+                      <span>Total Pemasukan Bulan {namaBulan}</span>
+                      <span className="font-mono text-yes">
+                        {totalPemasukan.toLocaleString()}
+                      </span>
+                    </div>
+                    <div className="flex justify-between bg-background3 p-3 rounded-xl w-full md:w-1/2">
+                      <span>Total Pengeluaran Bulan {namaBulan}</span>
+                      <span className="font-mono text-no">
+                        {totalPengeluaran.toLocaleString()}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              ))}
+              </>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
