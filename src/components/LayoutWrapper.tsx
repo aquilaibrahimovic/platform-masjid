@@ -4,8 +4,9 @@ import { ReactNode, useState, createContext, useContext } from "react";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import { ThemeProvider } from "next-themes";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { useHasMounted } from "@/lib/hooks/useHasMounted";
+import { usePathname } from "next/navigation";
 
 // Provide this context to children
 const SidebarContext = createContext<{
@@ -22,6 +23,7 @@ export default function LayoutWrapper({ children }: { children: ReactNode }) {
   const [isCompact, setIsCompact] = useState(true);
   const hasMounted = useHasMounted();
   const toggleCompact = () => setIsCompact((prev) => !prev);
+  const pathname = usePathname(); // ← will be used as a unique key
 
   return (
     <ThemeProvider attribute="data-theme" defaultTheme="system">
@@ -92,7 +94,16 @@ export default function LayoutWrapper({ children }: { children: ReactNode }) {
               marginLeft: hasMounted && isCompact ? 88 : 248,
             }}
           >
-            {children}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={pathname}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+              >
+                {children}
+              </motion.div>
+            </AnimatePresence>
           </motion.main>
         </div>
       </SidebarContext.Provider>
