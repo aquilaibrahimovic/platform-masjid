@@ -13,9 +13,9 @@ export default function Sidebar() {
   const { isCompact } = useSidebar();
 
   return (
-    <div className="flex flex-col justify-between h-full bg-background1 px-4 pb-4 gap-4">
+    <div className="flex sm:flex-col items-stretch justify-between sm:justify-start h-full sm:gap-4 gap-0 px-0.5 py-0.5 sm:px-4 sm:pb-4">
       {/* Part 1: Logo */}
-      <div className="relative w-full h-14 sm:flex hidden select-none">
+      <div className="relative w-full h-14 sm:flex hidden select-none short:hidden">
         <div className="w-14 h-14">
           <motion.svg
             key={resolvedTheme}
@@ -55,7 +55,7 @@ export default function Sidebar() {
       </div>
 
       {/* Part 2: Menu */}
-      <div className="flex sm:flex-col justify-start items-start gap-1 flex-1">
+      <div className="flex sm:flex-col justify-between sm:justify-start items-center sm:items-start sm:gap-1 flex-1">
         {MENU_ITEMS.map(({ icon: Icon, label, href }) => {
           const isActive = pathname === href;
 
@@ -64,8 +64,8 @@ export default function Sidebar() {
               key={label}
               href={href}
               className={`
-    relative w-full px-4 py-2 cursor-pointer rounded-lg
-    flex items-center justify-start
+    relative w-14 sm:w-full h-full sm:h-min px-2 sm:px-4 py-2 cursor-pointer rounded-full sm:rounded-lg
+    flex items-center justify-center sm:justify-start
     ${
       isActive
         ? "bg-accent1b shadow-sm"

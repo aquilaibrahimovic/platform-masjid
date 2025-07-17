@@ -34,43 +34,62 @@ export default function LayoutWrapper({ children }: { children: ReactNode }) {
         {/* Main layout container */}
         <div className="min-h-[calc(100vh-64px)]">
           {/* Sidebar */}
-          <motion.aside
-            animate={{
-              width: hasMounted ? (isCompact ? 88 : 248) : 88,
-            }}
-            transition={{
-              type: "spring",
-              stiffness: 300,
-              damping: 18,
-            }}
-            className={`
-          fixed bottom-0 h-16 w-full
-          sm:top-16 sm:left-0 sm:bottom-auto
-          sm:h-[calc(100vh-64px)]
-          hidden sm:block
-        `}
-            style={{
-              width: hasMounted ? (isCompact ? 88 : 248) : 88,
-            }}
-          >
-            <Sidebar />
-          </motion.aside>
+          {hasMounted && (
+            <>
+              {/* ✅ Animated Sidebar for sm+ */}
+              <motion.aside
+                animate={{
+                  width: isCompact ? 88 : 248,
+                }}
+                transition={{
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 18,
+                }}
+                className={`
+        hidden sm:block
+        fixed bottom-0 h-16 w-full
+        sm:top-16 sm:left-0 sm:bottom-auto
+        sm:h-[calc(100vh-64px)]
+        bg-background1
+      `}
+                style={{
+                  width: isCompact ? 88 : 248,
+                }}
+              >
+                <Sidebar />
+              </motion.aside>
+
+              {/* ✅ Static Dock Sidebar for mobile (<sm) */}
+              <aside
+                className={`
+        sm:hidden
+        fixed bottom-0 left-0 right-0 m-4 shadow-sm rounded-full 
+        h-16 bg-background3/50 backdrop-blur border-2 border-background3 z-40
+      `}
+              >
+                <Sidebar />
+              </aside>
+            </>
+          )}
 
           {/* Page content */}
           <motion.main
-            animate={{
-              marginLeft: hasMounted ? (isCompact ? 88 : 248) : 88,
-            }}
+            animate={
+              hasMounted
+                ? {
+                    marginLeft: isCompact ? 88 : 248,
+                  }
+                : {}
+            }
             transition={{
               type: "spring",
               stiffness: 300,
               damping: 18,
             }}
-            className={`
-          px-4 sm:px-0 sm:pr-4 pb-16 sm:pb-0
-        `}
+            className="px-4 sm:px-0 sm:pr-4 pb-16 sm:pb-0"
             style={{
-              marginLeft: hasMounted ? (isCompact ? 88 : 248) : 88,
+              marginLeft: hasMounted && isCompact ? 88 : 248,
             }}
           >
             {children}

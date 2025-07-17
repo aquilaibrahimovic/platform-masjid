@@ -75,3 +75,15 @@ body::-webkit-scrollbar-thumb {
   border: 3px solid transparent;
   background-clip: content-box;
 }
+
+@media (max-width: 639px) {
+  main {
+    margin-left: 0 !important;
+  }
+}
+
+@media (max-height: 500px) {
+  .short\:hidden {
+    display: none !important;
+  }
+}
