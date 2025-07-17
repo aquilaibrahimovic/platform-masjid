@@ -83,7 +83,23 @@ body::-webkit-scrollbar-thumb {
 }
 
 @media (max-height: 500px) {
+  .short\:flex {
+    display: flex !important;
+  }
+
+  .short\:inline {
+    display: inline !important;
+  }
+
+  .short\:block {
+    display: block !important;
+  }
+
   .short\:hidden {
     display: none !important;
   }
+}
+
+button {
+  cursor: pointer;
 }

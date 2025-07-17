@@ -13,7 +13,7 @@ export default function Sidebar() {
   const { isCompact } = useSidebar();
 
   return (
-    <div className="flex sm:flex-col items-stretch justify-between sm:justify-start h-full sm:gap-4 gap-0 px-0.5 py-0.5 sm:px-4 sm:pb-4">
+    <div className="flex sm:flex-col items-stretch justify-between sm:justify-start h-full sm:gap-4 gap-0 px-0.5 py-0.5 sm:px-4 sm:py-0 sm:pb-4">
       {/* Part 1: Logo */}
       <div className="relative w-full h-14 sm:flex hidden select-none short:hidden">
         <div className="w-14 h-14">
@@ -64,7 +64,7 @@ export default function Sidebar() {
               key={label}
               href={href}
               className={`
-    relative w-14 sm:w-full h-full sm:h-min px-2 sm:px-4 py-2 cursor-pointer rounded-full sm:rounded-lg
+    relative w-14 sm:w-full h-full sm:h-min px-2 sm:px-4 py-2 rounded-full sm:rounded-lg
     flex items-center justify-center sm:justify-start
     ${
       isActive

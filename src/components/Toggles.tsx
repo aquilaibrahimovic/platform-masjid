@@ -14,7 +14,7 @@ export function SidebarToggleButton() {
     <button
       onClick={toggleCompact}
       className={clsx(
-        "hidden sm:block relative w-8 h-8 rounded-lg cursor-pointer border-2 overflow-hidden bg-background3 shadow-sm",
+        "hidden sm:block relative w-8 h-8 rounded-lg border-2 overflow-hidden bg-background3 shadow-sm",
         isCompact ? "border-yes" : "border-no"
       )}
       aria-label="Toggle Sidebar"
@@ -77,7 +77,7 @@ export function ThemeToggleButton() {
   return (
     <button
       onClick={toggleTheme}
-      className="relative w-8 h-8 rounded-full overflow-hidden bg-accent2a cursor-pointer shadow-sm"
+      className="relative w-8 h-8 rounded-full overflow-hidden bg-accent2a shadow-sm"
       aria-label="Toggle Theme"
     >
       {/* White Circle */}

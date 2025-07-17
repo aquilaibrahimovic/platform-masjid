@@ -89,7 +89,7 @@ export default function LayoutWrapper({ children }: { children: ReactNode }) {
               stiffness: 300,
               damping: 18,
             }}
-            className="px-4 sm:px-0 sm:pr-4 pb-16 sm:pb-0"
+            className="px-4 sm:px-0 sm:pr-4 pb-16 sm:pb-0 mb-8"
             style={{
               marginLeft: hasMounted && isCompact ? 88 : 248,
             }}
