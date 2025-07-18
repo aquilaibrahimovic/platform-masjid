@@ -76,7 +76,7 @@ export default function WeeklyReport({ date, allData }: WeeklyReportProps) {
   const namaBulan = format(date, "MMMM yyyy", { locale: id });
 
   return (
-    <div className="bg-background2 p-4 rounded-xl mt-4">
+    <div className="bg-background2 p-4 rounded-xl">
       <h2 className="text-accent1a font-semibold mb-4">
         Laporan Mingguan ({namaBulan})
       </h2>

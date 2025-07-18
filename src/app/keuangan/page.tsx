@@ -16,6 +16,8 @@ import {
   Info,
 } from "lucide-react";
 import WeeklyReport from "@/components/WeeklyReport";
+import MonthlyEvaluation from "@/components/MonthlyEvaluation";
+import SaldoCards from "@/components/SaldoCards";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -143,8 +145,28 @@ export default function KeuanganPage() {
           </div>
         </div>
       </div>
+      <div
+        className="grid gap-4 
+              md:grid-cols-[2fr_1fr] 
+              md:auto-rows-min
+              md:grid-rows-[auto_auto]"
+      >
+        <div className="md:row-start-1 md:col-start-1">
+          <WeeklyReport date={date} allData={allData} />
+        </div>
 
-      <WeeklyReport date={date} allData={allData} />
+        <div className="md:row-start-1 md:row-span-2 md:col-start-2">
+          <MonthlyEvaluation
+            pemasukan={totalPemasukan}
+            pengeluaran={totalPengeluaran}
+            date={date}
+          />
+        </div>
+
+        <div className="md:row-start-2 md:col-start-1">
+          <SaldoCards currentSaldo={dataWithSaldo.at(-1)?.saldo ?? 0} />
+        </div>
+      </div>
 
       <div className="bg-background2 p-4 rounded-xl">
         {isLoading ? (
