@@ -205,7 +205,9 @@ export default function KeuanganPage() {
                           trx.pemasukan ? "text-yes" : "text-text1"
                         }`}
                       >
-                        {trx.pemasukan ? trx.pemasukan.toLocaleString() : "-"}
+                        {trx.pemasukan
+                          ? trx.pemasukan.toLocaleString("id-ID")
+                          : "-"}
                       </div>
                       <div
                         className={`text-right font-mono ${
@@ -213,7 +215,7 @@ export default function KeuanganPage() {
                         }`}
                       >
                         {trx.pengeluaran
-                          ? trx.pengeluaran.toLocaleString()
+                          ? trx.pengeluaran.toLocaleString("id-ID")
                           : "-"}
                       </div>
                       <div
@@ -221,7 +223,7 @@ export default function KeuanganPage() {
                           trx.saldo >= 0 ? "text-text1" : "text-no"
                         }`}
                       >
-                        {trx.saldo.toLocaleString()}
+                        {trx.saldo.toLocaleString("id-ID")}
                       </div>
                       <div className="text-center">
                         <button className="bg-background1 hover:bg-accent1a hover:text-background1 rounded-full py-1 px-4">
@@ -235,10 +237,10 @@ export default function KeuanganPage() {
                       Total Mutasi Bulan {namaBulan}
                     </div>
                     <div className="text-right font-mono text-background1">
-                      {totalPemasukan.toLocaleString()}
+                      {totalPemasukan.toLocaleString("id-ID")}
                     </div>
                     <div className="text-right font-mono text-background1">
-                      {totalPengeluaran.toLocaleString()}
+                      {totalPengeluaran.toLocaleString("id-ID")}
                     </div>
                     <div /> {/* Empty saldo column */}
                     <div /> {/* Empty nota column */}
@@ -281,9 +283,9 @@ export default function KeuanganPage() {
                           }`}
                         >
                           {trx.pemasukan || trx.pengeluaran
-                            ? (
-                                trx.pemasukan || trx.pengeluaran
-                              ).toLocaleString()
+                            ? (trx.pemasukan || trx.pengeluaran).toLocaleString(
+                                "id-ID"
+                              )
                             : "-"}
                         </div>
                       </div>
@@ -301,7 +303,7 @@ export default function KeuanganPage() {
                             trx.saldo >= 0 ? "text-text1" : "text-no"
                           }`}
                         >
-                          {trx.saldo.toLocaleString()}
+                          {trx.saldo.toLocaleString("id-ID")}
                         </div>
                       </div>
                     </div>
@@ -313,13 +315,13 @@ export default function KeuanganPage() {
                       <div className="flex justify-between bg-background3 p-3 rounded-xl w-full md:w-1/2">
                         <span>Total Pemasukan Bulan {namaBulan}</span>
                         <span className="font-mono text-yes">
-                          {totalPemasukan.toLocaleString()}
+                          {totalPemasukan.toLocaleString("id-ID")}
                         </span>
                       </div>
                       <div className="flex justify-between bg-background3 p-3 rounded-xl w-full md:w-1/2">
                         <span>Total Pengeluaran Bulan {namaBulan}</span>
                         <span className="font-mono text-no">
-                          {totalPengeluaran.toLocaleString()}
+                          {totalPengeluaran.toLocaleString("id-ID")}
                         </span>
                       </div>
                     </div>
