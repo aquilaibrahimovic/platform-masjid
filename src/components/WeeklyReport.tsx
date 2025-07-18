@@ -3,7 +3,6 @@
 import { useMemo } from "react";
 import {
   addDays,
-  endOfMonth,
   startOfMonth,
   subDays,
   startOfDay,
@@ -34,7 +33,6 @@ type WeeklyReportProps = {
 export default function WeeklyReport({ date, allData }: WeeklyReportProps) {
   const weeklyData: WeeklySummary[] = useMemo(() => {
     const startDate = startOfMonth(date);
-    const endDate = endOfMonth(date);
     const firstSaturday = subDays(startDate, (startDate.getDay() + 1) % 7);
 
     const weeks: WeeklySummary[] = [];
