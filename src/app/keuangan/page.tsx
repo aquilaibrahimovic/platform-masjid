@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { format, parseISO } from "date-fns";
 import { id } from "date-fns/locale";
@@ -35,42 +35,51 @@ export default function KeuanganPage() {
   const KeuanganIcon = keuanganItem?.icon;
 
   const [date, setDate] = useState(new Date());
-  const [data, setData] = useState<Transaksi[]>([]);
+  const [allData, setAllData] = useState<Transaksi[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [viewMode, setViewMode] = useState<"table" | "grid">("table");
 
   useEffect(() => {
-    const fetchData = async () => {
-      const from = new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        1
-      ).toISOString();
-      const to = new Date(
-        date.getFullYear(),
-        date.getMonth() + 1,
-        0
-      ).toISOString();
-
+    const fetchAllData = async () => {
+      setIsLoading(true);
       const { data, error } = await supabase
         .from("transaksi")
         .select("*")
-        .gte("tanggal", from)
-        .lte("tanggal", to)
         .order("tanggal", { ascending: true });
 
       if (!error && data) {
         let saldo = 0;
-        const withSaldo = data.map((trx) => {
+        const withSaldo = data.map((trx: Transaksi) => {
           saldo += (trx.pemasukan || 0) - (trx.pengeluaran || 0);
           return { ...trx, saldo };
         });
-        setData(withSaldo);
+        setAllData(withSaldo);
       }
+
+      setIsLoading(false);
     };
 
-    fetchData();
-  }, [date]);
+    fetchAllData();
+  }, []);
+
+  const filteredData = useMemo(() => {
+    return allData.filter((trx) => {
+      const trxDate = new Date(trx.tanggal);
+      return (
+        trxDate.getFullYear() === date.getFullYear() &&
+        trxDate.getMonth() === date.getMonth()
+      );
+    });
+  }, [allData, date]);
+
+  const dataWithSaldo = useMemo(() => {
+    let saldo = 0;
+    return filteredData.map((trx: Transaksi) => {
+      saldo += (trx.pemasukan || 0) - (trx.pengeluaran || 0);
+      return { ...trx, saldo };
+    });
+  }, [filteredData]);
 
   const handlePrevMonth = () => {
     setDate((prev) => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));
@@ -80,14 +89,15 @@ export default function KeuanganPage() {
     setDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
   };
 
-  const totalPemasukan = data.reduce(
-    (sum, trx) => sum + (trx.pemasukan || 0),
+  const totalPemasukan = dataWithSaldo.reduce(
+    (sum: number, trx: Transaksi) => sum + (trx.pemasukan || 0),
     0
   );
-  const totalPengeluaran = data.reduce(
-    (sum, trx) => sum + (trx.pengeluaran || 0),
+  const totalPengeluaran = dataWithSaldo.reduce(
+    (sum: number, trx: Transaksi) => sum + (trx.pengeluaran || 0),
     0
   );
+
   const namaBulan = format(date, "LLLL", { locale: id });
 
   return (
@@ -134,7 +144,9 @@ export default function KeuanganPage() {
       </div>
 
       <div className="bg-background2 p-4 rounded-xl">
-        {data.length > 0 ? (
+        {isLoading ? (
+          <div className="text-sm text-text2">Memuat data...</div>
+        ) : dataWithSaldo.length > 0 ? (
           <>
             <div className="flex w-full justify-between items-center mb-4">
               <h2 className="text-accent1a font-semibold">Transaksi Harian</h2>
@@ -177,7 +189,7 @@ export default function KeuanganPage() {
                   </div>
 
                   {/* Body */}
-                  {data.map((trx) => (
+                  {dataWithSaldo.map((trx) => (
                     <div
                       key={trx.id}
                       className="grid grid-cols-[minmax(150px,auto)_104px_88px_88px_88px_72px] text-sm text-text1 bg-background3 hover:bg-background1/25 px-4 py-2 font-normal items-center"
@@ -236,7 +248,7 @@ export default function KeuanganPage() {
             ) : (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
                 <>
-                  {data.map((trx) => (
+                  {dataWithSaldo.map((trx) => (
                     <div
                       key={trx.id}
                       className="grid grid-cols-2 bg-background3 p-4 rounded-xl text-sm gap-y-0.5 shadow-md"
