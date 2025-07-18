@@ -15,6 +15,7 @@ import {
   WalletMinimal,
   Info,
 } from "lucide-react";
+import WeeklyReport from "@/components/WeeklyReport";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -142,6 +143,8 @@ export default function KeuanganPage() {
           </div>
         </div>
       </div>
+
+      <WeeklyReport date={date} allData={allData} />
 
       <div className="bg-background2 p-4 rounded-xl">
         {isLoading ? (
