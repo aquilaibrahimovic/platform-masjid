@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { format, parseISO } from "date-fns";
 import { id } from "date-fns/locale";
@@ -21,6 +21,8 @@ import MonthlyEvaluation from "@/components/MonthlyEvaluation";
 import SaldoCards from "@/components/SaldoCards";
 import { Transaksi } from "@/types/transaksi";
 import FinancialTracking from "@/components/FinancialTracking";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -103,14 +105,35 @@ export default function KeuanganPage() {
 
   const namaBulan = format(date, "LLLL", { locale: id });
 
+  const handleSavePdf = async () => {
+    if (!printRef.current) return;
+
+    const canvas = await html2canvas(printRef.current, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: "#ffffff", // fallback
+    });
+
+    const imgData = canvas.toDataURL("image/jpeg", 1.0);
+    const pdf = new jsPDF("p", "mm", "a4");
+
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+    pdf.addImage(imgData, "JPEG", 0, 0, pdfWidth, pdfHeight);
+    pdf.save("laporan-keuangan.pdf");
+  };
+
+  const printRef = useRef<HTMLDivElement>(null);
+
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4" ref={printRef}>
       <div className="bg-background1 rounded-bl-2xl sticky top-16 z-30">
         <div className="flex flex-1 bg-background2 rounded-2xl h-14 justify-between items-center shadow-lg pr-4">
           <div className="flex gap-2 items-center">
-            <div className="h-14 w-14 bg-accent2b rounded-2xl flex items-center justify-center">
+            <div className="h-14 w-14 bg-accent2b bg-linear-to-t from-accent1a to-accent2a rounded-2xl flex items-center justify-center">
               {KeuanganIcon && (
-                <KeuanganIcon className="w-10 h-10 text-white" />
+                <KeuanganIcon className="w-8 h-8 text-alwaysWhite" />
               )}
             </div>
             <h1 className="text-xl sm:text-2xl font-semibold text-accent2b">
@@ -118,16 +141,15 @@ export default function KeuanganPage() {
             </h1>
           </div>
 
-          <div className="h-12 w-fit md:w-48 flex items-center gap-2">
-            {/* ✅ Print Button */}
-            <button
-              onClick={() => window.print()}
-              title="Cetak Halaman"
-              className="aspect-square h-8 rounded-full bg-accent1b hover:bg-accent1a text-background1 flex items-center justify-center"
-            >
-              <Printer size={16} />
-            </button>
+          {/* ✅ Print Button */}
+          <button
+            onClick={handleSavePdf}
+            className="hidden sm:flex aspect-square h-8 rounded-full bg-accent1b hover:bg-accent1a text-background1 items-center justify-center"
+          >
+            <Printer size={16} />
+          </button>
 
+          <div className="h-12 w-fit md:w-48 flex items-center gap-2">
             {/* Month Selector */}
             <div className="h-12 w-30 md:w-48 rounded-xl flex items-center justify-between">
               <button
@@ -178,7 +200,7 @@ export default function KeuanganPage() {
         </div>
 
         <div className="md:row-start-2 md:col-start-1">
-          <SaldoCards currentSaldo={dataWithSaldo.at(-1)?.saldo ?? 0} />
+          <SaldoCards currentSaldo={allData.at(-1)?.saldo ?? 0} />
         </div>
       </div>
 
@@ -225,7 +247,7 @@ export default function KeuanganPage() {
                       <div className="text-right">Masuk</div>
                       <div className="text-right">Keluar</div>
                       <div className="text-right">Saldo</div>
-                      <div className="text-right pr-4">Nota</div>
+                      <div className="text-center ml-2">Nota</div>
                     </div>
 
                     {/* Body */}

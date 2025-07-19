@@ -1,7 +1,7 @@
 "use client";
 
-const mockSaldoBank = 100_000_000;
-const mockDeposito = 100_000_000;
+const mockSaldoBank = 96_597_273;
+const mockDeposito = 110_000_000;
 
 type SaldoCardsProps = {
   currentSaldo: number;
