@@ -4,7 +4,7 @@
   --Background1: #e2e8f0;
   --Background2: #f1f5f9;
   --Background3: #fafafa;
-  --card-bg: url("/images/cardbg.jpg");
+  --card-bg: url("/images/cardbg.webp");
   --Text1: #09090b;
   --Text2: #334155;
   --Text3: #64748b;
@@ -41,7 +41,7 @@
   --Background1: #09090b;
   --Background2: #18181b;
   --Background3: #3f3f46;
-  --card-bg: url("/images/cardbgdark.jpg");
+  --card-bg: url("/images/cardbgdark.webp");
   --Text1: #fafafa;
   --Text2: #e2e8f0;
   --Text3: #94a3b8;

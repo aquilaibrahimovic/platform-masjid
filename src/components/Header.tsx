@@ -9,7 +9,7 @@ export default function Header() {
     <div className="flex h-16 justify-between items-center px-4 gap-2 bg-background1">
       <SidebarToggleButton />
       <div className="relative h-14 flex-1 sm:hidden short:flex select-none">
-        <div className="w-14 h-14">
+        <div className="w-14 h-14 scale-75 -translate-x-1.75">
           <motion.svg
             key={resolvedTheme}
             width="56"
@@ -30,7 +30,7 @@ export default function Header() {
           </motion.svg>
         </div>
         <div
-          className="absolute top-[6px] w-39 h-14 left-15 hidden sm:hidden short:flex flex-col justify-center"
+          className="absolute top-1 w-39 h-14 left-11 hidden sm:hidden short:flex flex-col justify-center"
           style={{ lineHeight: 1 }}
         >
           <div className="font-special text-md font-bold text-text3">
