@@ -18,20 +18,13 @@ import {
 import WeeklyReport from "@/components/WeeklyReport";
 import MonthlyEvaluation from "@/components/MonthlyEvaluation";
 import SaldoCards from "@/components/SaldoCards";
+import { Transaksi } from "@/types/transaksi";
+import FinancialTracking from "@/components/FinancialTracking";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
-
-type Transaksi = {
-  id: number;
-  tanggal: string;
-  keterangan: string;
-  pemasukan: number;
-  pengeluaran: number;
-  saldo: number;
-};
 
 export default function KeuanganPage() {
   const keuanganItem = MENU_ITEMS.find((item) => item.label === "Keuangan");
@@ -379,6 +372,7 @@ export default function KeuanganPage() {
           </div>
         )}
       </div>
+      <FinancialTracking allData={allData} />
     </div>
   );
 }

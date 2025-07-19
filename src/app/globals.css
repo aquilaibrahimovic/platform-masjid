@@ -173,3 +173,7 @@ button {
     background-position: calc(100% + 60px) 50%;
   }
 }
+
+.recharts-wrapper *:focus:not(:focus-visible) {
+  outline: none;
+}
