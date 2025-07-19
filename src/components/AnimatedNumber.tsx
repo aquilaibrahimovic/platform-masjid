@@ -14,7 +14,7 @@ export default function AnimatedNumber({
 }: AnimatedNumberProps) {
   const [displayValue, setDisplayValue] = useState(value);
   const previousValue = useRef(value);
-  const [scope, animate] = useAnimate();
+  const [scope] = useAnimate();
 
   useEffect(() => {
     const from = previousValue.current;
