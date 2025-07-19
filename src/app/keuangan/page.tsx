@@ -42,6 +42,7 @@ export default function KeuanganPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   const [viewMode, setViewMode] = useState<"table" | "grid">("table");
+  const KOREKSI_SALDO = 1252000;
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -52,11 +53,24 @@ export default function KeuanganPage() {
         .order("tanggal", { ascending: true });
 
       if (!error && data) {
-        let saldo = 0;
-        const withSaldo = data.map((trx: Transaksi) => {
-          saldo += (trx.pemasukan || 0) - (trx.pengeluaran || 0);
-          return { ...trx, saldo };
+        let runningSaldo = KOREKSI_SALDO;
+
+        const withSaldo = data.map((trx: Transaksi, index: number) => {
+          const pemasukan = trx.pemasukan || 0;
+          const pengeluaran = trx.pengeluaran || 0;
+
+          // For the first row, apply KOREKSI_SALDO before calculating saldo
+          runningSaldo += pemasukan - pengeluaran;
+          console.log(
+            `Row ${index}: +${trx.pemasukan} -${trx.pengeluaran} = Saldo ${runningSaldo}`
+          );
+
+          return {
+            ...trx,
+            saldo: runningSaldo,
+          };
         });
+
         setAllData(withSaldo);
       }
 
@@ -77,12 +91,14 @@ export default function KeuanganPage() {
   }, [allData, date]);
 
   const dataWithSaldo = useMemo(() => {
-    let saldo = 0;
-    return filteredData.map((trx: Transaksi) => {
-      saldo += (trx.pemasukan || 0) - (trx.pengeluaran || 0);
-      return { ...trx, saldo };
+    return allData.filter((trx) => {
+      const trxDate = new Date(trx.tanggal);
+      return (
+        trxDate.getFullYear() === date.getFullYear() &&
+        trxDate.getMonth() === date.getMonth()
+      );
     });
-  }, [filteredData]);
+  }, [allData, date]);
 
   const handlePrevMonth = () => {
     setDate((prev) => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));

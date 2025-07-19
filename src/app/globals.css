@@ -4,6 +4,7 @@
   --Background1: #e2e8f0;
   --Background2: #f1f5f9;
   --Background3: #fafafa;
+  --card-bg: url("/images/cardbg.jpg");
   --Text1: #09090b;
   --Text2: #334155;
   --Text3: #64748b;
@@ -40,6 +41,7 @@
   --Background1: #09090b;
   --Background2: #18181b;
   --Background3: #3f3f46;
+  --card-bg: url("/images/cardbgdark.jpg");
   --Text1: #fafafa;
   --Text2: #e2e8f0;
   --Text3: #94a3b8;
@@ -102,4 +104,72 @@ body::-webkit-scrollbar-thumb {
 
 button {
   cursor: pointer;
+}
+
+/* SALDO CARDS */
+.seamless-card {
+  background-image: var(--card-bg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+/* <md: 1 column layout (4 stacked cards) */
+@media (max-width: 639px) {
+  .seamless-card-1 {
+    background-size: 400% calc(400% + 60px);
+    background-position: 100% 0%;
+  }
+  .seamless-card-2 {
+    background-size: 400% calc(400% + 60px);
+    background-position: 100% 33.3333%;
+  }
+  .seamless-card-3 {
+    background-size: 400% calc(400% + 60px);
+    background-position: 100% 66.6667%;
+  }
+  .seamless-card-4 {
+    background-size: 400% calc(400% + 60px);
+    background-position: 100% 100%;
+  }
+}
+
+/* md: 2x2 layout (tablet) */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .seamless-card-1 {
+    background-size: calc(200% + 20px) calc(200% + 20px);
+    background-position: 0% 0%;
+  }
+  .seamless-card-2 {
+    background-size: calc(200% + 20px) calc(200% + 20px);
+    background-position: calc(100% + 20px) 0%;
+  }
+  .seamless-card-3 {
+    background-size: calc(200% + 20px) calc(200% + 20px);
+    background-position: 0% 100%;
+  }
+  .seamless-card-4 {
+    background-size: calc(200% + 20px) calc(200% + 20px);
+    background-position: calc(100% + 20px) 100%;
+  }
+}
+
+/* lg+: 4 in a row layout */
+@media (min-width: 1024px) {
+  .seamless-card-1 {
+    background-size: calc(400% + 60px) 400%;
+    background-position: 0% 50%;
+  }
+  .seamless-card-2 {
+    background-size: calc(400% + 60px) 400%;
+    background-position: calc(33.3333% + 20px) 50%;
+  }
+  .seamless-card-3 {
+    background-size: calc(400% + 60px) 400%;
+    background-position: calc(66.6667% + 40px) 50%;
+  }
+  .seamless-card-4 {
+    background-size: calc(400% + 60px) 400%;
+    background-position: calc(100% + 60px) 50%;
+  }
 }

@@ -7,26 +7,35 @@ type SaldoCardsProps = {
   currentSaldo: number;
 };
 
-export default function SaldoCards({ currentSaldo }: SaldoCardsProps) {
-  const total = currentSaldo + mockSaldoBank + mockDeposito;
+type SaldoKey = "kas" | "bank" | "deposito" | "total";
 
-  const cards = [
-    { label: "Saldo Kas", value: currentSaldo },
-    { label: "Saldo Bank", value: mockSaldoBank },
-    { label: "Saldo Deposito", value: mockDeposito },
-    { label: "Total Saldo", value: total },
-  ];
+const cards: { label: string; key: SaldoKey }[] = [
+  { label: "Saldo Kas", key: "kas" },
+  { label: "Saldo Bank", key: "bank" },
+  { label: "Saldo Deposito", key: "deposito" },
+  { label: "Total Saldo", key: "total" },
+];
+
+export default function SaldoCards({ currentSaldo }: SaldoCardsProps) {
+  const values = {
+    kas: currentSaldo,
+    bank: mockSaldoBank,
+    deposito: mockDeposito,
+    total: currentSaldo + mockSaldoBank + mockDeposito,
+  };
 
   return (
-    <div className="grid grid-cols-2 gap-3">
-      {cards.map((card) => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      {cards.map((card, index) => (
         <div
-          key={card.label}
-          className="bg-background3 rounded-xl p-4 flex flex-col gap-1 shadow-sm"
+          key={card.key}
+          className={`seamless-card seamless-card-${
+            index + 1
+          } rounded-xl p-4 flex flex-col justify-center gap-1 shadow-md text-text2`}
         >
-          <span className="text-sm text-text2">{card.label}</span>
-          <span className="text-lg font-mono font-semibold text-text1">
-            Rp. {card.value.toLocaleString("id-ID")}
+          <span className="text-sm text-text1">{card.label}</span>
+          <span className="text-lg font-mono font-semibold">
+            {values[card.key].toLocaleString("id-ID")}
           </span>
         </div>
       ))}

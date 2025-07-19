@@ -29,7 +29,7 @@ export default function MonthlyEvaluation({
   const tahun = format(date, "yyyy", { locale: id });
 
   return (
-    <div className="bg-background2 p-4 rounded-xl w-full min-w-62">
+    <div className="bg-background2 p-4 rounded-xl w-full min-w-62 h-full">
       <h2 className="text-accent1a font-semibold">Evaluasi Bulanan</h2>
 
       <ResponsiveContainer width="100%" height={240}>
