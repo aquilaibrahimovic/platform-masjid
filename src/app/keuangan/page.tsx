@@ -175,7 +175,7 @@ export default function KeuanganPage() {
         ) : dataWithSaldo.length > 0 ? (
           <>
             <div className="flex w-full justify-between items-center mb-4">
-              <h2 className="text-accent1a font-semibold">Transaksi Harian</h2>
+              <h2 className="text-accent2b font-semibold">Transaksi Harian</h2>
               <div className="flex gap-2">
                 <button
                   onClick={() => setViewMode("grid")}

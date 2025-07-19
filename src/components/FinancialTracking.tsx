@@ -90,7 +90,7 @@ export default function FinancialTracking({ allData }: FinancialTrackingProps) {
   return (
     <div className="bg-background2 p-4 rounded-xl w-full">
       <div className="flex justify-between items-center mb-2">
-        <h2 className="text-accent1a font-semibold">Analisis Keuangan</h2>
+        <h2 className="text-accent2b font-semibold">Analisis Keuangan</h2>
         <div className="flex items-center">
           <button
             className={`w-8 h-8 rounded-full flex items-center justify-center text-background1

@@ -77,7 +77,7 @@ export default function WeeklyReport({ date, allData }: WeeklyReportProps) {
 
   return (
     <div className="bg-background2 p-4 rounded-xl">
-      <h2 className="text-accent1a font-semibold mb-4">
+      <h2 className="text-accent2b font-semibold mb-4">
         Laporan Mingguan ({namaBulan})
       </h2>
 
