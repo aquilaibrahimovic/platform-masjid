@@ -5,6 +5,7 @@ import { AreaChart, Area, ResponsiveContainer, CartesianGrid } from "recharts";
 import { Transaksi } from "@/types/transaksi";
 import { format, parseISO, subDays, subMonths, subYears } from "date-fns";
 import { id } from "date-fns/locale";
+import { ChevronRight, ChevronLeft } from "lucide-react";
 
 const rangeOptions = [
   { label: "7 Hari", value: "7d" },
@@ -90,22 +91,61 @@ export default function FinancialTracking({ allData }: FinancialTrackingProps) {
     <div className="bg-background2 p-4 rounded-xl w-full">
       <div className="flex justify-between items-center mb-2">
         <h2 className="text-accent1a font-semibold">Analisis Keuangan</h2>
-        <select
-          value={range}
-          onChange={(e) => setRange(e.target.value)}
-          className="rounded-md border text-sm px-2 py-1 text-text1 bg-background1 border-border"
-        >
-          {rangeOptions.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
+        <div className="flex items-center">
+          <button
+            className={`w-8 h-8 rounded-full flex items-center justify-center text-background1
+    ${
+      range === rangeOptions[0].value
+        ? "bg-accent1b/50"
+        : "bg-accent1b hover:bg-accent1a"
+    }
+  `}
+            onClick={() => {
+              const currentIndex = rangeOptions.findIndex(
+                (opt) => opt.value === range
+              );
+              const prevIndex = Math.max(0, currentIndex - 1);
+              setRange(rangeOptions[prevIndex].value);
+            }}
+            disabled={range === rangeOptions[0].value}
+          >
+            <ChevronLeft size={16} />
+          </button>
+
+          <div className="flex text-sm font-semibold justify-center text-center w-18">
+            <span>
+              {rangeOptions.find((opt) => opt.value === range)?.label}
+            </span>
+          </div>
+
+          <button
+            className={`w-8 h-8 rounded-full flex items-center justify-center text-background1
+    ${
+      range === rangeOptions[rangeOptions.length - 1].value
+        ? "bg-accent1b/50"
+        : "bg-accent1b hover:bg-accent1a"
+    }
+  `}
+            onClick={() => {
+              const currentIndex = rangeOptions.findIndex(
+                (opt) => opt.value === range
+              );
+              const nextIndex = Math.min(
+                rangeOptions.length - 1,
+                currentIndex + 1
+              );
+              setRange(rangeOptions[nextIndex].value);
+            }}
+            disabled={range === rangeOptions[rangeOptions.length - 1].value}
+          >
+            <ChevronRight size={16} />
+          </button>
+        </div>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-4">
+      <div className="flex flex-col sm:flex-row gap-5">
         {/* Chart */}
-        <div className="w-full md:w-full h-[300px]">
+        <div className="w-full md:flex-1 h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
               data={chartData}
@@ -178,55 +218,54 @@ export default function FinancialTracking({ allData }: FinancialTrackingProps) {
             </AreaChart>
           </ResponsiveContainer>
         </div>
-        {/* Legend */}
-        <div className="w-full md:w-fit flex md:flex-col justify-between md:justify-center gap-2 text-sm">
-          {[
-            { name: "Pemasukan", color: COLORS.pemasukan },
-            { name: "Pengeluaran", color: COLORS.pengeluaran },
-            { name: "Saldo", color: COLORS.saldo },
-          ].map((item) => (
-            <div
-              key={item.name}
-              className="flex items-center justify-start gap-2"
-            >
-              <span
-                className="inline-block w-3 h-3 rounded-full"
-                style={{ backgroundColor: item.color }}
-              />
-              <span className="text-text1">{item.name}</span>
-            </div>
-          ))}
-        </div>
 
-        <div className="mt-2 text-sm font-mono text-text1">
-          {activeData ? (
-            <div className="flex flex-col md:flex-row md:items-center md:gap-6">
-              <div className="font-sans font-semibold text-text2 w-36 md:w-auto">
-                {activeData.tanggal}
-              </div>
-              <div className="flex flex-col md:flex-row gap-1 md:gap-10">
-                <div className="flex justify-between">
-                  <span>Pemasukan</span>
-                  <span className="text-yes">
-                    Rp. {activeData.pemasukan.toLocaleString("id-ID")}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Pengeluaran</span>
-                  <span className="text-no">
-                    Rp. {activeData.pengeluaran.toLocaleString("id-ID")}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Saldo</span>
-                  <span className="text-accent1a">
-                    Rp. {activeData.saldo.toLocaleString("id-ID")}
-                  </span>
-                </div>
-              </div>
+        {/* Legend */}
+        {activeData && (
+          <div className="mt-2 text-sm text-text1 flex flex-col gap-1 w-full sm:w-64">
+            <div className="font-bold text-lg sm:text-2xl text-text2">
+              {activeData.tanggal}
             </div>
-          ) : null}
-        </div>
+
+            {[
+              {
+                name: "Pemasukan",
+                color: COLORS.pemasukan,
+                value: activeData.pemasukan,
+                className: "text-yes",
+              },
+              {
+                name: "Pengeluaran",
+                color: COLORS.pengeluaran,
+                value: activeData.pengeluaran,
+                className: "text-no",
+              },
+              {
+                name: "Saldo",
+                color: COLORS.saldo,
+                value: activeData.saldo,
+                className: "text-accent1a",
+              },
+            ].map((item) => (
+              <div
+                key={item.name}
+                className="flex sm:flex-col items-center sm:items-start justify-between"
+              >
+                <div className="flex items-center gap-2">
+                  <span
+                    className="inline-block w-3 h-3 rounded-full"
+                    style={{ backgroundColor: item.color }}
+                  />
+                  <span>{item.name}</span>
+                </div>
+                <div
+                  className={`text-right mb-0 sm:mb-4 w-full text-lg sm:text-xl font-semibold ${item.className}`}
+                >
+                  Rp. {item.value.toLocaleString("id-ID")}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

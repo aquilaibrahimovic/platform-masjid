@@ -106,6 +106,21 @@ button {
   cursor: pointer;
 }
 
+h2 {
+  font-size: x-large;
+}
+
+@media (max-width: 450px) {
+  h2 {
+    font-size: large;
+  }
+}
+
+button:disabled,
+button[disabled] {
+  cursor: not-allowed;
+}
+
 /* SALDO CARDS */
 .seamless-card {
   background-image: var(--card-bg);

@@ -144,13 +144,15 @@ export default function KeuanganPage() {
           </div>
         </div>
       </div>
+
+      {/* Mingguan */}
       <div
         className="grid gap-4 
               md:grid-cols-[2fr_1fr] 
               md:auto-rows-min
               md:grid-rows-[auto_auto]"
       >
-        <div className="md:row-start-1 md:col-start-1">
+        <div>
           <WeeklyReport date={date} allData={allData} />
         </div>
 
