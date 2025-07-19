@@ -77,7 +77,7 @@ export function ThemeToggleButton() {
   return (
     <button
       onClick={toggleTheme}
-      className="relative w-8 h-8 rounded-full overflow-hidden bg-accent2a shadow-sm"
+      className="relative w-8 h-8 rounded-full overflow-hidden bg-accent1b shadow-sm"
       aria-label="Toggle Theme"
     >
       {/* White Circle */}
@@ -98,7 +98,7 @@ export function ThemeToggleButton() {
 
       {/* Overlay Accent Circle */}
       <motion.div
-        className="absolute rounded-full bg-accent2a"
+        className="absolute rounded-full bg-accent1b"
         animate={{
           x: -8,
           y: sunMode ? -16 : -24,

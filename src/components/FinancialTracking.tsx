@@ -6,6 +6,7 @@ import { Transaksi } from "@/types/transaksi";
 import { format, parseISO, subDays, subMonths, subYears } from "date-fns";
 import { id } from "date-fns/locale";
 import { ChevronRight, ChevronLeft } from "lucide-react";
+import AnimatedNumber from "@/components/AnimatedNumber";
 
 const rangeOptions = [
   { label: "7 Hari", value: "7d" },
@@ -143,9 +144,9 @@ export default function FinancialTracking({ allData }: FinancialTrackingProps) {
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-5">
+      <div className="flex flex-col sm:flex-row gap-5 sm:gap-0">
         {/* Chart */}
-        <div className="w-full md:flex-1 h-[300px]">
+        <div className="w-full md:flex-1 h-[300px] rounded-lg sm:rounded-l-lg sm:rounded-r-none shadow-md">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
               data={chartData}
@@ -221,7 +222,7 @@ export default function FinancialTracking({ allData }: FinancialTrackingProps) {
 
         {/* Legend */}
         {activeData && (
-          <div className="mt-2 text-sm text-text1 flex flex-col gap-1 w-full sm:w-64">
+          <div className="mt-2 text-sm text-text1 flex flex-col gap-1 w-full sm:w-64 p-4 bg-background3 rounded-lg sm:rounded-r-lg sm:rounded-l-none shadow-md">
             <div className="font-bold text-lg sm:text-2xl text-text2">
               {activeData.tanggal}
             </div>
@@ -257,11 +258,11 @@ export default function FinancialTracking({ allData }: FinancialTrackingProps) {
                   />
                   <span>{item.name}</span>
                 </div>
-                <div
+
+                <AnimatedNumber
+                  value={item.value}
                   className={`text-right mb-0 sm:mb-4 w-full text-lg sm:text-xl font-semibold ${item.className}`}
-                >
-                  Rp. {item.value.toLocaleString("id-ID")}
-                </div>
+                />
               </div>
             ))}
           </div>

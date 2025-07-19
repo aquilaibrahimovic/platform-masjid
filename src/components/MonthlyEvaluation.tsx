@@ -12,8 +12,8 @@ type MonthlyEvaluationProps = {
 };
 
 const COLORS = {
-  pemasukan: "#22c55e", // Tailwind's green-500 (text-yes)
-  pengeluaran: "#ef4444", // Tailwind's red-500 (text-no)
+  pemasukan: "var(--color-yes)",
+  pengeluaran: "var(--color-no)",
 };
 
 export default function MonthlyEvaluation({
@@ -103,9 +103,19 @@ export default function MonthlyEvaluation({
 
           {/* Difference row */}
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 font-bold">
               <span className="inline-block w-3 h-3 rounded-full bg-muted" />
-              <span className="text-text1">Selisih</span>
+              <span
+                className={
+                  selisih > 0
+                    ? "text-yes"
+                    : selisih < 0
+                    ? "text-no"
+                    : "text-text3"
+                }
+              >
+                {selisih > 0 ? "Surplus" : selisih < 0 ? "Defisit" : "Selisih"}
+              </span>
             </div>
             <div
               className={`font-mono ${
