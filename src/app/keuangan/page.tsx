@@ -73,16 +73,6 @@ export default function KeuanganPage() {
     fetchAllData();
   }, []);
 
-  const filteredData = useMemo(() => {
-    return allData.filter((trx) => {
-      const trxDate = new Date(trx.tanggal);
-      return (
-        trxDate.getFullYear() === date.getFullYear() &&
-        trxDate.getMonth() === date.getMonth()
-      );
-    });
-  }, [allData, date]);
-
   const dataWithSaldo = useMemo(() => {
     return allData.filter((trx) => {
       const trxDate = new Date(trx.tanggal);

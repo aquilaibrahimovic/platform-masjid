@@ -1,15 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  CartesianGrid,
-} from "recharts";
+import { AreaChart, Area, ResponsiveContainer, CartesianGrid } from "recharts";
 import { Transaksi } from "@/types/transaksi";
 import { format, parseISO, subDays, subMonths, subYears } from "date-fns";
 import { id } from "date-fns/locale";
@@ -27,30 +19,6 @@ type FinancialTrackingProps = {
 
 export default function FinancialTracking({ allData }: FinancialTrackingProps) {
   const [range, setRange] = useState("30d");
-
-  const filtered = useMemo(() => {
-    const now = new Date();
-    let from: Date;
-
-    switch (range) {
-      case "7d":
-        from = subDays(now, 7);
-        break;
-      case "30d":
-        from = subDays(now, 30);
-        break;
-      case "3m":
-        from = subMonths(now, 3);
-        break;
-      case "1y":
-        from = subYears(now, 1);
-        break;
-      default:
-        from = subDays(now, 30);
-    }
-
-    return allData.filter((trx) => new Date(trx.tanggal) >= from);
-  }, [range, allData]);
 
   const chartData = useMemo(() => {
     let runningSaldo = 1252000;
@@ -114,8 +82,6 @@ export default function FinancialTracking({ allData }: FinancialTrackingProps) {
     saldo: "var(--color-accent1a)",
   };
 
-  const formatJuta = (value: number) =>
-    `${(value / 1_000_000).toFixed(1).replace(".", ",")}J`;
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const activeData =
     activeIndex != null ? chartData[activeIndex] : chartData.at(-1);

@@ -13,8 +13,8 @@ type Transaksi = {
 };
 
 function HomePage() {
-  const [date, setDate] = useState(new Date());
-  const [allData, setAllData] = useState<Transaksi[]>([]);
+  const [date] = useState(new Date());
+  const [allData] = useState<Transaksi[]>([]);
   return <WeeklyReport date={date} allData={allData} />;
 }
 
