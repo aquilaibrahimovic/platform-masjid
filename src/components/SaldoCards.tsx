@@ -25,7 +25,7 @@ export default function SaldoCards({ currentSaldo }: SaldoCardsProps) {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 select-none">
       {cards.map((card, index) => (
         <div
           key={card.key}
@@ -34,7 +34,8 @@ export default function SaldoCards({ currentSaldo }: SaldoCardsProps) {
           } rounded-xl p-4 flex flex-col justify-center gap-1 shadow-md text-text2`}
         >
           <span className="text-sm text-text1">{card.label}</span>
-          <span className="text-lg font-mono font-semibold">
+          <span className="text-2xl lg:text-base xl:text-2xl font-mono font-semibold text-right">
+            <sup>Rp </sup>
             {values[card.key].toLocaleString("id-ID")}
           </span>
         </div>

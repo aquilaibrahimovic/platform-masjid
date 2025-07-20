@@ -321,7 +321,7 @@ export default function KeuanganPage() {
                       className="grid grid-cols-2 bg-background3 p-4 rounded-xl text-sm gap-y-0.5 shadow-md"
                     >
                       {/* Row 1: Keterangan full width */}
-                      <div className="flex justify-start items-center col-span-2 font-semibold text-lg text-text1 h-10">
+                      <div className="flex justify-start items-center col-span-2 font-semibold text-lg text-text1 h-10 leading-none">
                         {trx.keterangan}
                       </div>
 
