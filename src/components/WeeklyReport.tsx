@@ -76,12 +76,12 @@ export default function WeeklyReport({ date, allData }: WeeklyReportProps) {
   const namaBulan = format(date, "MMMM yyyy", { locale: id });
 
   return (
-    <div className="bg-background2 p-4 rounded-xl">
+    <div className="bg-background2 p-4 rounded-2xl">
       <h2 className="text-accent2b font-semibold mb-4">
         Laporan Mingguan ({namaBulan})
       </h2>
 
-      <div className="rounded-2xl overflow-x-auto shadow-md">
+      <div className="rounded-lg overflow-x-auto shadow-md">
         <div className="flex flex-col gap-0.5 w-full">
           <div className="grid grid-cols-[1fr_2fr_2fr] text-sm font-semibold text-text1 bg-background1 px-4 py-2 w-full">
             <div>Jumat</div>

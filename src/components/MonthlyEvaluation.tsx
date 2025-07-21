@@ -37,7 +37,7 @@ export default function MonthlyEvaluation({
   else if (selisihJuta < 0) colorClass = "text-no";
 
   return (
-    <div className="bg-background2 p-4 rounded-xl w-full min-w-62 h-full">
+    <div className="bg-background2 p-4 rounded-2xl w-full min-w-62 h-full">
       <h2 className="text-accent2b font-semibold">Evaluasi Bulanan</h2>
 
       <div className="relative h-[240px]">
@@ -81,7 +81,7 @@ export default function MonthlyEvaluation({
       </div>
 
       <div>
-        <h3 className="text-sm font-semibold text-text1 mb-2">
+        <h3 className="text-xl font-semibold text-text1 mb-2">
           Neraca Bulan {bulan} {tahun}
         </h3>
 

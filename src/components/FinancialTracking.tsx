@@ -89,7 +89,7 @@ export default function FinancialTracking({ allData }: FinancialTrackingProps) {
     activeIndex != null ? chartData[activeIndex] : chartData.at(-1);
 
   return (
-    <div className="bg-background2 p-4 rounded-xl w-full">
+    <div className="bg-background2 p-4 rounded-2xl w-full">
       <div className="flex justify-between items-center mb-2">
         <h2 className="text-accent2b font-semibold">Analisis Keuangan</h2>
         <div className="flex items-center">

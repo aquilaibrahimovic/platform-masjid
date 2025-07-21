@@ -204,7 +204,7 @@ export default function KeuanganPage() {
         </div>
       </div>
 
-      <div className="bg-background2 p-4 rounded-xl">
+      <div className="bg-background2 p-4 rounded-2xl">
         {isLoading ? (
           <div className="text-sm text-text2">Memuat data...</div>
         ) : dataWithSaldo.length > 0 ? (
@@ -237,7 +237,7 @@ export default function KeuanganPage() {
 
             {/* Keep your table/grid logic here as is */}
             {viewMode === "table" ? (
-              <div className="rounded-2xl overflow-x-auto shadow-md">
+              <div className="rounded-lg overflow-x-auto shadow-md">
                 <div className="min-w-[740px]">
                   <div className="flex flex-col gap-0.5 w-full">
                     {/* Header */}
@@ -288,7 +288,7 @@ export default function KeuanganPage() {
                           {trx.saldo.toLocaleString("id-ID")}
                         </div>
                         <div className="text-right pr-4">
-                          <button className="bg-background1 hover:bg-accent1a hover:text-background1 rounded-full py-1 px-4">
+                          <button className="bg-accent1b hover:bg-accent1a text-background1 rounded-full py-1 px-4">
                             Nota
                           </button>
                         </div>
@@ -318,7 +318,7 @@ export default function KeuanganPage() {
                   {dataWithSaldo.map((trx) => (
                     <div
                       key={trx.id}
-                      className="grid grid-cols-2 bg-background3 p-4 rounded-xl text-sm gap-y-0.5 shadow-md"
+                      className="grid grid-cols-2 bg-background3 p-4 rounded-lg text-sm gap-y-0.5 shadow-md"
                     >
                       {/* Row 1: Keterangan full width */}
                       <div className="flex justify-start items-center col-span-2 font-semibold text-lg text-text1 h-10 leading-none">
@@ -377,7 +377,7 @@ export default function KeuanganPage() {
                   {/* Grid summary row */}
                   <div className="md:col-span-2 lg:col-span-3 xl:col-span-4">
                     <div className="flex flex-col md:flex-row gap-2 mt-4 text-sm text-text1 font-semibold">
-                      <div className="flex justify-between bg-background3 p-3 rounded-xl w-full md:w-1/2 shadow-md">
+                      <div className="flex justify-between bg-background3 p-3 rounded-lg w-full md:w-1/2 shadow-md">
                         <span>Total Pemasukan Bulan {namaBulan}</span>
                         <span className="font-mono text-yes">
                           {totalPemasukan.toLocaleString("id-ID")}
@@ -396,7 +396,7 @@ export default function KeuanganPage() {
             )}
           </>
         ) : (
-          <div className="w-full text-text2 text-sm font-medium rounded-xl flex items-center gap-2">
+          <div className="w-full text-text2 text-sm font-medium flex items-center gap-2">
             <Info className="w-5 h-5 text-accent1a" />
             Tidak ada transaksi pada Bulan{" "}
             {format(date, "MMMM yyyy", { locale: id })}
