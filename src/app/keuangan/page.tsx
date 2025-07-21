@@ -297,7 +297,7 @@ export default function KeuanganPage() {
 
                     {/* Footer */}
                     <div className="grid grid-cols-[minmax(150px,auto)_104px_120px_120px_120px_100px] text-sm font-semibold bg-background1 py-2">
-                      <div className="col-span-2 text-text1 pl-4">
+                      <div className="col-span-2 text-text1 pl-4 font-semibold ">
                         Total Mutasi Bulan {namaBulan}
                       </div>
                       <div className="text-right font-mono text-yes">
