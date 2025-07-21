@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { AreaChart, Area, ResponsiveContainer, CartesianGrid } from "recharts";
+import { AreaChart, Area, ResponsiveContainer } from "recharts";
 import { Transaksi } from "@/types/transaksi";
 import { format, parseISO, subDays, subMonths, subYears } from "date-fns";
 import { id } from "date-fns/locale";
@@ -81,7 +81,7 @@ export default function FinancialTracking({ allData }: FinancialTrackingProps) {
   const COLORS = {
     pemasukan: "var(--color-yes)",
     pengeluaran: "var(--color-no)",
-    saldo: "var(--color-accent1a)",
+    saldo: "var(--color-accent1b)",
   };
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -193,8 +193,6 @@ export default function FinancialTracking({ allData }: FinancialTrackingProps) {
                 </linearGradient>
               </defs>
 
-              <CartesianGrid strokeDasharray="3 3" />
-
               <Area
                 type="monotone"
                 dataKey="pemasukan"
@@ -244,7 +242,7 @@ export default function FinancialTracking({ allData }: FinancialTrackingProps) {
                 name: "Saldo",
                 color: COLORS.saldo,
                 value: activeData.saldo,
-                className: "text-accent1a",
+                className: "text-accent1b",
               },
             ].map((item) => (
               <div

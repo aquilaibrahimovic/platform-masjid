@@ -45,7 +45,7 @@ export default function SaldoCards({ currentSaldo }: SaldoCardsProps) {
             <span className="text-2xl lg:text-base xl:text-2xl font-sans font-semibold text-right">
               <sup className="text-accent2b text-sm">Rp</sup>
               {main}
-              <span className="text-sm">.{last}</span>
+              <span className="text-xs">.{last}</span>
             </span>
           </div>
         );
