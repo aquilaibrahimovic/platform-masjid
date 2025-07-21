@@ -33,9 +33,9 @@ export default function SaldoCards({ currentSaldo }: SaldoCardsProps) {
             index + 1
           } rounded-xl p-4 flex flex-col justify-center gap-1 shadow-md text-text2`}
         >
-          <span className="text-sm text-text1">{card.label}</span>
+          <span className="text-sm text-accent2b font-bold">{card.label}</span>
           <span className="text-2xl lg:text-base xl:text-2xl font-mono font-semibold text-right">
-            <sup>Rp </sup>
+            <sup className="text-accent2b">Rp</sup>
             {values[card.key].toLocaleString("id-ID")}
           </span>
         </div>

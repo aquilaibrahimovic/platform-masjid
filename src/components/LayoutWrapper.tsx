@@ -1,6 +1,12 @@
 "use client";
 
-import { ReactNode, useState, createContext, useContext } from "react";
+import {
+  ReactNode,
+  useState,
+  createContext,
+  useContext,
+  useEffect,
+} from "react";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import { ThemeProvider } from "next-themes";
@@ -19,10 +25,19 @@ const SidebarContext = createContext<{
 export const useSidebar = () => useContext(SidebarContext);
 
 export default function LayoutWrapper({ children }: { children: ReactNode }) {
-  const [isCompact, setIsCompact] = useState(true);
+  const [isCompact, setIsCompact] = useState(true); // Safe SSR default
+  const [hydrated, setHydrated] = useState(false); // Avoid SSR mismatch
+
+  useEffect(() => {
+    setHydrated(true);
+    const shouldCompact = window.matchMedia("(max-width: 767px)").matches;
+    setIsCompact(shouldCompact);
+  }, []);
+
   const toggleCompact = () => setIsCompact((prev) => !prev);
   const pathname = usePathname(); // ← will be used as a unique key
 
+  if (!hydrated) return null;
   return (
     <ThemeProvider attribute="data-theme" defaultTheme="system">
       <SidebarContext.Provider value={{ isCompact, toggleCompact }}>
