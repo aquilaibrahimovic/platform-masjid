@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useMemo, useRef } from "react";
-import { createClient } from "@supabase/supabase-js";
+import { supabase } from "@/lib/supabase-client";
 import { format, parseISO } from "date-fns";
 import { id } from "date-fns/locale";
 import { MENU_ITEMS } from "@/lib/constants";
@@ -15,7 +15,9 @@ import {
   WalletMinimal,
   Info,
   Printer,
+  Plus,
 } from "lucide-react";
+import AddTransactionModal from "@/components/AddTransactionModal";
 import WeeklyReport from "@/components/WeeklyReport";
 import MonthlyEvaluation from "@/components/MonthlyEvaluation";
 import SaldoCards from "@/components/SaldoCards";
@@ -23,11 +25,6 @@ import { Transaksi } from "@/types/transaksi";
 import FinancialTracking from "@/components/FinancialTracking";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
 
 export default function KeuanganPage() {
   const keuanganItem = MENU_ITEMS.find((item) => item.label === "Keuangan");
@@ -126,12 +123,27 @@ export default function KeuanganPage() {
 
   const printRef = useRef<HTMLDivElement>(null);
 
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [userRole, setUserRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user) {
+        setUserRole(user.user_metadata?.role ?? null);
+      }
+    };
+    fetchUser();
+  }, []);
+
   return (
     <div className="flex flex-col gap-4" ref={printRef}>
       <div className="bg-background1 rounded-bl-2xl sticky top-16 z-30">
-        <div className="flex flex-1 bg-background2 rounded-2xl h-14 justify-between items-center shadow-lg pr-4">
+        <div className="flex flex-1 bg-background2 rounded-xl md:rounded-2xl h-10 md:h-14 justify-between items-center shadow-lg pr-4">
           <div className="flex gap-2 items-center">
-            <div className="h-14 w-14 bg-accent2b bg-linear-to-t from-accent1a to-accent2a rounded-2xl flex items-center justify-center">
+            <div className="h-10 w-10 md:h-14 md:w-14 bg-accent2b bg-linear-to-t from-accent1a to-accent2a rounded-xl md:rounded-2xl flex items-center justify-center">
               {KeuanganIcon && (
                 <KeuanganIcon className="w-8 h-8 text-alwaysWhite" />
               )}
@@ -212,12 +224,20 @@ export default function KeuanganPage() {
             <div className="flex w-full justify-between items-center mb-4">
               <h2 className="text-accent2b font-semibold">Transaksi Harian</h2>
               <div className="flex gap-2">
+                {userRole === "admin" && (
+                  <button
+                    className="h-8 w-8 flex justify-center items-center rounded-full text-sm bg-admincolor text-background1 hover:bg-admincolor/50"
+                    onClick={() => setShowAddModal(true)}
+                  >
+                    <Plus />
+                  </button>
+                )}
                 <button
                   onClick={() => setViewMode("grid")}
                   className={`h-8 w-8 flex justify-center items-center rounded-full text-sm ${
                     viewMode === "grid"
-                      ? "bg-accent1b text-background1"
-                      : "bg-background1 hover:bg-accent1a/20"
+                      ? "bg-accent1b text-background1 hover:bg-accent1a"
+                      : "bg-background1 hover:bg-accent1a/25"
                   }`}
                 >
                   <LayoutGrid size={16} />
@@ -226,14 +246,18 @@ export default function KeuanganPage() {
                   onClick={() => setViewMode("table")}
                   className={`h-8 w-8 flex justify-center items-center rounded-full text-sm ${
                     viewMode === "table"
-                      ? "bg-accent1b text-background1"
-                      : "bg-background1 hover:bg-accent1a/20"
+                      ? "bg-accent1b text-background1 hover:bg-accent1a"
+                      : "bg-background1 hover:bg-accent1a/25"
                   }`}
                 >
                   <Rows3 size={16} />
                 </button>
               </div>
             </div>
+            <AddTransactionModal
+              open={showAddModal}
+              onClose={() => setShowAddModal(false)}
+            />
 
             {/* Keep your table/grid logic here as is */}
             {viewMode === "table" ? (

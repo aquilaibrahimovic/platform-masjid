@@ -14,6 +14,7 @@
   --Accent1b: #2563eb;
   --Accent2a: #a78bfa;
   --Accent2b: #7c3aed;
+  --AdminColor: #365314;
 }
 
 @theme inline {
@@ -29,6 +30,7 @@
   --color-accent1b: var(--Accent1b);
   --color-accent2a: var(--Accent2a);
   --color-accent2b: var(--Accent2b);
+  --color-admincolor: var(--AdminColor);
   --color-alwaysWhite: #fafafa;
   --color-alwaysBlack: #09090b;
   --font-sans: var(--font-ubuntu-sans);
@@ -51,6 +53,7 @@
   --Accent1b: #60a5fa;
   --Accent2a: #7c3aed;
   --Accent2b: #a78bfa;
+  --AdminColor: #d9f99d;
 }
 
 body {
