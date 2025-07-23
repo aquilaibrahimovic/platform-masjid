@@ -104,7 +104,6 @@ export default function MonthlyEvaluation({
           {/* Difference row */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 font-bold">
-              <span className="inline-block w-3 h-3 rounded-full bg-muted" />
               <span
                 className={
                   selisih > 0

@@ -11,8 +11,8 @@ import { LogIn, LogOut } from "lucide-react";
 export default function Header() {
   const [userRole, setUserRole] = useState<string | null>(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email] = useState("");
+  const [password] = useState("");
 
   useEffect(() => {
     const getUser = async () => {
@@ -25,18 +25,6 @@ export default function Header() {
     };
     getUser();
   }, []);
-
-  const handleLogin = async () => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) {
-      alert(error.message);
-    } else {
-      location.reload();
-    }
-  };
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
