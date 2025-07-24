@@ -31,8 +31,8 @@ export default function AddTransactionModal({ open, onClose }: Props) {
       {
         keterangan,
         tanggal,
-        pemasukan: tipe === "masuk" ? numericValue : null,
-        pengeluaran: tipe === "keluar" ? numericValue : null,
+        pemasukan: tipe === "masuk" ? numericValue : 0,
+        pengeluaran: tipe === "keluar" ? numericValue : 0,
       },
     ]);
     setIsLoading(false);

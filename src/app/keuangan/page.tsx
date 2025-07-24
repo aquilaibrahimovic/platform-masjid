@@ -254,10 +254,6 @@ export default function KeuanganPage() {
                 </button>
               </div>
             </div>
-            <AddTransactionModal
-              open={showAddModal}
-              onClose={() => setShowAddModal(false)}
-            />
 
             {/* Keep your table/grid logic here as is */}
             {viewMode === "table" ? (
@@ -420,13 +416,25 @@ export default function KeuanganPage() {
             )}
           </>
         ) : (
-          <div className="w-full text-text2 text-sm font-medium flex items-center gap-2">
+          <div className="w-full text-text2 text-sm font-medium grid grid-cols-[min-content_auto_min-content] items-center gap-2">
             <Info className="w-5 h-5 text-accent1a" />
             Tidak ada transaksi pada Bulan{" "}
             {format(date, "MMMM yyyy", { locale: id })}
+            {userRole === "admin" && (
+              <button
+                className="h-8 w-8 flex justify-center items-center rounded-full text-sm bg-admincolor text-background1 hover:bg-admincolor/50"
+                onClick={() => setShowAddModal(true)}
+              >
+                <Plus />
+              </button>
+            )}
           </div>
         )}
       </div>
+      <AddTransactionModal
+        open={showAddModal}
+        onClose={() => setShowAddModal(false)}
+      />
       <FinancialTracking allData={allData} />
     </div>
   );
