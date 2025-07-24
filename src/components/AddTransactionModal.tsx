@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase-client";
 import { format } from "date-fns";
 import LocalizedDatePicker from "./LocalizedDatePicker";
@@ -9,17 +9,28 @@ import { motion, AnimatePresence } from "motion/react";
 type Props = {
   open: boolean;
   onClose: () => void;
+  defaultDate: Date;
 };
 
-export default function AddTransactionModal({ open, onClose }: Props) {
+export default function AddTransactionModal({
+  open,
+  onClose,
+  defaultDate,
+}: Props) {
   const [keterangan, setKeterangan] = useState("");
-  const [tanggal, setTanggal] = useState(() =>
-    format(new Date(), "yyyy-MM-dd")
-  );
-  const [dateObj, setDateObj] = useState(() => new Date(tanggal));
+  const [tanggal, setTanggal] = useState(""); // initialize empty
+  const [dateObj, setDateObj] = useState<Date | null>(null);
   const [tipe, setTipe] = useState<"masuk" | "keluar">("masuk");
   const [nilai, setNilai] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  // Sync default date when modal opens
+  useEffect(() => {
+    if (open && defaultDate) {
+      setDateObj(defaultDate);
+      setTanggal(format(defaultDate, "yyyy-MM-dd"));
+    }
+  }, [open, defaultDate]);
 
   const handleAdd = async () => {
     const numericValue = parseInt(nilai.replace(/[^0-9]/g, ""));
@@ -55,7 +66,7 @@ export default function AddTransactionModal({ open, onClose }: Props) {
         >
           {/* Backdrop */}
           <motion.div
-            className="absolute inset-0 bg-black/40"
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -63,7 +74,7 @@ export default function AddTransactionModal({ open, onClose }: Props) {
             onClick={onClose}
           />
 
-          {/* Modal Box */}
+          {/* Modal */}
           <motion.div
             className="relative z-10 bg-background2 p-6 rounded-xl shadow-lg w-96 space-y-4"
             initial={{ opacity: 0, y: 40 }}
@@ -86,14 +97,13 @@ export default function AddTransactionModal({ open, onClose }: Props) {
             <div className="flex gap-2 items-center">
               <div className="flex-1">
                 <LocalizedDatePicker
-                  selected={dateObj}
+                  selected={dateObj ?? new Date()}
                   onSelect={(d) => {
                     setDateObj(d);
                     setTanggal(format(d, "yyyy-MM-dd"));
                   }}
                 />
               </div>
-
               <button
                 type="button"
                 onClick={() => {
@@ -146,7 +156,6 @@ export default function AddTransactionModal({ open, onClose }: Props) {
               <button className="text-sm px-4 py-1 rounded-md border border-border text-text2 hover:bg-background1">
                 Nota
               </button>
-
               <div className="flex gap-2">
                 <button
                   onClick={onClose}

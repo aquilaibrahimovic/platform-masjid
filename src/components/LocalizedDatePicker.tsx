@@ -27,6 +27,7 @@ export default function LocalizedDatePicker({ selected, onSelect }: Props) {
             selected={selected}
             onSelect={(d) => d && onSelect(d)}
             locale={id}
+            month={selected} // ✅ forces calendar to open on selected date
             footer={format(selected, "EEEE, dd MMMM yyyy", { locale: id })}
           />
         </Popover.Panel>

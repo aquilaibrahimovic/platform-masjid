@@ -271,49 +271,69 @@ export default function KeuanganPage() {
                     </div>
 
                     {/* Body */}
-                    {dataWithSaldo.map((trx) => (
-                      <div
-                        key={trx.id}
-                        className="grid grid-cols-[minmax(150px,auto)_104px_120px_120px_120px_100px] text-sm text-text1 bg-background3 hover:bg-background1/25 font-normal items-center py-2"
-                      >
-                        <div className="pl-4">{trx.keterangan}</div>
-                        <div className="text-right">
-                          {format(parseISO(trx.tanggal), "EEE, dd LLL yy", {
-                            locale: id,
-                          })}
-                        </div>
-                        <div
-                          className={`text-right font-mono ${
-                            trx.pemasukan ? "text-yes" : "text-text1"
-                          }`}
-                        >
-                          {trx.pemasukan
-                            ? trx.pemasukan.toLocaleString("id-ID")
-                            : "-"}
-                        </div>
-                        <div
-                          className={`text-right font-mono ${
-                            trx.pengeluaran ? "text-no" : "text-text1"
-                          }`}
-                        >
-                          {trx.pengeluaran
-                            ? trx.pengeluaran.toLocaleString("id-ID")
-                            : "-"}
-                        </div>
-                        <div
-                          className={`text-right font-mono ${
-                            trx.saldo >= 0 ? "text-text1" : "text-no"
-                          }`}
-                        >
-                          {trx.saldo.toLocaleString("id-ID")}
-                        </div>
-                        <div className="text-right pr-4">
-                          <button className="bg-accent1b hover:bg-accent1a text-background1 rounded-full py-1 px-4">
-                            Nota
-                          </button>
-                        </div>
-                      </div>
-                    ))}
+                    {(() => {
+                      let lastDate = "";
+                      let toggle = false;
+
+                      return dataWithSaldo.map((trx) => {
+                        const trxDate = format(
+                          parseISO(trx.tanggal),
+                          "yyyy-MM-dd"
+                        );
+                        if (trxDate !== lastDate) {
+                          toggle = !toggle;
+                          lastDate = trxDate;
+                        }
+
+                        const bgClass = toggle
+                          ? "bg-background3"
+                          : "bg-background4";
+
+                        return (
+                          <div
+                            key={trx.id}
+                            className={`grid grid-cols-[minmax(150px,auto)_104px_120px_120px_120px_100px] text-sm text-text1 ${bgClass} hover:bg-background1/25 font-normal items-center py-2`}
+                          >
+                            <div className="pl-4">{trx.keterangan}</div>
+                            <div className="text-right">
+                              {format(parseISO(trx.tanggal), "EEE, dd LLL yy", {
+                                locale: id,
+                              })}
+                            </div>
+                            <div
+                              className={`text-right font-mono ${
+                                trx.pemasukan ? "text-yes" : "text-text1"
+                              }`}
+                            >
+                              {trx.pemasukan
+                                ? trx.pemasukan.toLocaleString("id-ID")
+                                : "-"}
+                            </div>
+                            <div
+                              className={`text-right font-mono ${
+                                trx.pengeluaran ? "text-no" : "text-text1"
+                              }`}
+                            >
+                              {trx.pengeluaran
+                                ? trx.pengeluaran.toLocaleString("id-ID")
+                                : "-"}
+                            </div>
+                            <div
+                              className={`text-right font-mono ${
+                                trx.saldo >= 0 ? "text-text1" : "text-no"
+                              }`}
+                            >
+                              {trx.saldo.toLocaleString("id-ID")}
+                            </div>
+                            <div className="text-right pr-4">
+                              <button className="bg-accent1b hover:bg-accent1a text-background1 rounded-full py-1 px-4">
+                                Nota
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      });
+                    })()}
 
                     {/* Footer */}
                     <div className="grid grid-cols-[minmax(150px,auto)_104px_120px_120px_120px_100px] text-sm font-semibold bg-background1 py-2">
@@ -434,6 +454,7 @@ export default function KeuanganPage() {
       <AddTransactionModal
         open={showAddModal}
         onClose={() => setShowAddModal(false)}
+        defaultDate={date} // ✅ this fixes the TS error and enables the feature
       />
       <FinancialTracking allData={allData} />
     </div>
