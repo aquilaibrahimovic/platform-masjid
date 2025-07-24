@@ -11,8 +11,6 @@ import { LogIn, LogOut } from "lucide-react";
 export default function Header() {
   const [userRole, setUserRole] = useState<string | null>(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [email] = useState("");
-  const [password] = useState("");
 
   useEffect(() => {
     const getUser = async () => {
