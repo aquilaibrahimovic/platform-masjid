@@ -110,7 +110,7 @@ export default function MonthlyEvaluation({
 
       {/* Difference row */}
       <div
-        className={`flex flex-row md:flex-col lg:flex-row items-center justify-between md:justify-center lg:justify-between flex-1 px-4 gap-4 ${
+        className={`relative flex flex-row md:flex-col lg:flex-row items-center justify-between md:justify-center lg:justify-between flex-1 px-4 gap-4 ${
           selisih > 0 ? "bg-yes" : selisih < 0 ? "bg-no" : "bg-background3"
         } `}
       >
@@ -120,6 +120,7 @@ export default function MonthlyEvaluation({
         <div className="text-background1 font-mono font-bold text-base md:text-2xl lg:text-base">
           Rp. {selisih.toLocaleString("id-ID")}
         </div>
+        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-full h-24 bg-accent1a rounded-full" />
       </div>
     </div>
   );

@@ -54,7 +54,7 @@ export default function Header() {
             <use href="/images/sprites.svg#logo-masjid" />
           </motion.svg>
           <div
-            className="absolute top-1 left-13 w-39 h-14 flex flex-col justify-center"
+            className="absolute top-1 left-13 w-39 h-14 hidden sm:flex flex-col justify-center"
             style={{ lineHeight: 1 }}
           >
             <div className="font-special text-sm font-bold text-text3 leading-0.5">
